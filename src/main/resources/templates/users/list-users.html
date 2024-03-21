@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Users Directory</title>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/login?logout">RNC</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/users/list">Usuarios<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customers/list">Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/suppliers/list">Proveedores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products/list">Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/sales/list">Ventas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products/purchase/list">Compras</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/purchases/list">Deposito</a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" href="/reports/charts">Reportes</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <br>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3>Listado de Usuarios</h3>
+    <hr>
+
+    <!-- Add a button -->
+    <a th:href="@{/users/showFormForAdd}"
+       class="btn btn-primary btn-sm mb-3">
+        Crear Usuario
+    </a>
+
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <!--            <th>ID</th>-->
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Usuario</th>
+            <th>Rol</th>
+            <th>Accion</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="tempUser : ${users}" th:if="${tempUser.status.ACTIVE}">
+
+            <!--            <td th:text="${tempUser.id}" />-->
+            <td th:text="${tempUser.firstName}"/>
+            <td th:text="${tempUser.lastName}"/>
+            <td th:text="${tempUser.email}"/>
+            <td th:text="${tempUser.username}"/>
+            <td th:text="${tempUser.role}"/>
+
+            <td>
+                <div class="row">
+
+                    <div class="col-small">
+                        <!-- Add "update" button/link -->
+                        <form action="#" th:action="@{/users/showFormForUpdate}" method="POST">
+
+                            <input type="hidden" name="userId" th:value="${tempUser.id}"/>
+                            <button type="submit" class="btn btn-info btn-sm ml-3 mr-1">Editar</button>
+
+                        </form>
+                    </div>
+
+                    <div class="col-small">
+                        <!-- Add "delete" button/link -->
+                        <form action="#" th:action="@{/users/delete}" method="POST">
+
+                            <input type="hidden" name="userId" th:value="${tempUser.id}"/>
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="if (!(confirm('Are you sure you want to delete this user?'))) return false">
+                                Eliminar
+                            </button>
+
+                        </form>
+                    </div>
+                </div>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+<!--    <form method="POST" th:action="@{/logout}">-->
+<!--        <b>User:</b> <span sec:authentication="name"></span>-->
+<!--        <a href="#" onclick="this.parentNode.submit();">Logout</a>-->
+<!--    </form>-->
+
+</div>
+
+</body>
+</html>
+
+
+

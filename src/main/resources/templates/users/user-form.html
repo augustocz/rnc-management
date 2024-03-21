@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Save User</title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3>Directorio de Usuarios</h3>
+    <hr>
+
+    <p class="h4 mb-4">Guardar Usuario</p>
+
+    <form action="#" th:action="@{/users/save}"
+          th:object="${user}" method="POST">
+
+        <!-- Add hidden form field to handle update -->
+        <input type="hidden" th:field="*{id}"/>
+
+<!--        <select class="selectpicker form-control mb-4 col-4" aria-label=".form-select-lg example" th:field="*{role}">-->
+<!--            <option th:value="Administrador" th:text="Administrador"></option>-->
+<!--            <option th:value="Vendedor" th:text="Vendedor"></option>-->
+<!--            <option th:value="Deposito" th:text="Deposito"></option>-->
+<!--        </select>-->
+
+        <select class="selectpicker form-control mb-4 col-4" aria-label=".form-select-lg example" th:field="*{role}">
+            <option th:each="roleOpt : ${T(com.usal.rncmanagement.entity.Role).values()}"
+                    th:value="${roleOpt}" th:text="${roleOpt}"></option>
+        </select>
+
+        <input type="text" th:field="*{firstName}"
+               class="form-control mb-4 col-4" placeholder="Nombre" pattern="[A-Z,a-z]{3,30}">
+
+        <input type="text" th:field="*{lastName}"
+               class="form-control mb-4 col-4" placeholder="Apellido" pattern="[A-Z,a-z]{3,30}">
+
+        <input type="email" th:field="*{email}"
+               class="form-control mb-4 col-4" placeholder="Email">
+
+        <input type="text" th:field="*{username}"
+               class="form-control mb-4 col-4" placeholder="Usuario" pattern="[A-Z,a-z,0-9]{5,25}">
+
+        <input type="password" th:field="*{password}"
+               class="form-control mb-4 col-4" placeholder="Contraseña" pattern="[A-Z,a-z,0-9]{5,25}">
+
+        <button type="submit" class="btn btn-info col-2">Guardar</button>
+
+    </form>
+
+    <hr>
+    <a th:href="@{/users/list}">Listado de Usuarios</a>
+
+</div>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
